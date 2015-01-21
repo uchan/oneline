@@ -6,7 +6,7 @@ Simple CRLF converter
 ##Usage:
 
 >oneline `<filename`> `<output-format`>  
->output-format:crlf/cr/lf (Upcase or Lowcase)
+>`<output-format`>:crlf/cr/lf (Upcase or Lowcase)
 
 
 ##Sample:
