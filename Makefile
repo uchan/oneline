@@ -3,7 +3,7 @@ ifeq ($(CC), cc)
 endif
 
 default: 
-	$(CC) -o oneline -std=c11 -Wall -Wextra oneline.c
+	$(CC) -o oneline -std=c11 -static-libgcc -Wall -Wextra oneline.c
 
 debug:
 	$(CC) -o oneline_debug -g -O0 -std=c11 -Wall -Wextra oneline.c
