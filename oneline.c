@@ -52,7 +52,7 @@ void print_help()
   printf("version:%s\n", VERSION);
   printf("repo:%s\n", REPO);
   printf("\noneline <filename> <output-format>\n");
-  printf("output-format:crlf/cr/lf\n");
+  printf("output-format:crlf/cr/lf (Upcase or Lowcase)\n");
 }
 
 // store parameters
