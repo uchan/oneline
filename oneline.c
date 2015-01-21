@@ -94,7 +94,7 @@ bool set_parameter(const char* filename, const char* output)
   }
   else if (0 == strcmp(lower, OUTPUT_LF))
   {
-    output_type = LF;
+    output_type = TYPE_LF;
   }
   else
   {

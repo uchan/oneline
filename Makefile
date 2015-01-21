@@ -1,5 +1,7 @@
-default:
-	gcc -o oneline -std=c11 -Wall -Wextra oneline.c
+CC=clang
+
+default: 
+	$(CC) -o oneline -std=c11 -Wall -Wextra oneline.c
 
 .PHONY: clean
 clean:
