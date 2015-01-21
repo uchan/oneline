@@ -21,9 +21,9 @@ const int ARG_COUNT = 3;
 const int MAX_LEN_OUT = 4;
 const size_t LARGE_SIZE = 100*1024*1024;
 
-const char* OUTPUT_CRLF = "crlf";
-const char* OUTPUT_CR = "cr";
-const char* OUTPUT_LF = "lf";
+const char OUTPUT_CRLF[] = "crlf";
+const char OUTPUT_CR[] = "cr";
+const char OUTPUT_LF[] = "lf";
 
 //-----------------------------------
 // global vars
@@ -75,7 +75,7 @@ bool set_parameter(const char* filename, const char* output)
     return false;
   }
 
-  char* lower = (char*) calloc(length, 1);
+  char* lower = (char*)calloc(length, 1);
   if (NULL == lower)
   {
     printf("can not allocate memory\n");
@@ -100,9 +100,11 @@ bool set_parameter(const char* filename, const char* output)
   }
   else
   {
+    free(lower);
     printf("output format error:%s\n", output);
     return false;
   }
+  free(lower);
 
   return true;
 }
