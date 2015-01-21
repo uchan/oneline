@@ -24,3 +24,4 @@ done!
 
 1.UTF-16(BE/LE),UTF-32 support  
 (check multibyte CR LF)
+
