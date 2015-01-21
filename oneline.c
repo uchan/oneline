@@ -223,6 +223,7 @@ void transform()
   // write data to file
   rewind(input_file);
   result = fwrite(output_buffer, 1, output_size, input_file);
+  printf("bytes write:%lu\n", result);
 }
 
 int main(int argc, char** argv)
