@@ -1,0 +1,13 @@
+language: c
+
+compiler:
+  - clang
+
+install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq mingw32
+
+script:
+  - make
+  - make debug
+  - CC=i586-mingw32msvc-gcc make win32
