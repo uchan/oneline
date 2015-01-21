@@ -25,9 +25,12 @@ const char OUTPUT_CRLF[] = "crlf";
 const char OUTPUT_CR[] = "cr";
 const char OUTPUT_LF[] = "lf";
 
+const char BACKUP_SUFFEX[] = "_oneline_output";
+
 //-----------------------------------
 // global vars
 static FILE* input_file = NULL;
+static const char* input_filename = NULL;
 enum LineType 
 {
   TYPE_INVALID = -1,
@@ -56,7 +59,7 @@ void print_help()
 bool set_parameter(const char* filename, const char* output)
 {
   // check file
-  FILE* test_file = fopen(filename, "r+b");
+  FILE* test_file = fopen(filename, "rb");
   if (NULL == test_file)
   {
     perror(filename);
@@ -65,6 +68,7 @@ bool set_parameter(const char* filename, const char* output)
   else
   {
     input_file = test_file;
+    input_filename = filename;
   }
 
   // check output
@@ -136,6 +140,39 @@ void put_output()
       assert(0);
       break;
   }
+}
+
+// write buffer to file
+void write_to_file()
+{
+  // make filename of tempfile
+  size_t input_filename_length = strlen(input_filename);
+  char* tempfile_name = (char*)calloc(
+             input_filename_length + sizeof(BACKUP_SUFFEX) + 1, 1);
+  memcpy(tempfile_name, input_filename, input_filename_length);
+  memcpy(tempfile_name + input_filename_length, BACKUP_SUFFEX,
+             sizeof(BACKUP_SUFFEX));
+
+  // write data to tempfile
+  FILE* tempfile = fopen(tempfile_name, "wb");
+  if (NULL == tempfile)
+  {
+    perror("can not write result");
+    free(tempfile_name);
+    return;
+  }
+  size_t result = fwrite(output_buffer, 1, output_size, tempfile);
+  printf("bytes write:%lu\n", result);
+  fclose(tempfile);
+
+  // delete original file
+  fclose(input_file);
+  input_file = NULL;
+  remove(input_filename);
+
+  // rename tempfile to input file
+  rename(tempfile_name, input_filename);
+  free(tempfile_name);
 }
 
 // clean resource
@@ -223,9 +260,7 @@ void transform()
   }   
 
   // write data to file
-  rewind(input_file);
-  result = fwrite(output_buffer, 1, output_size, input_file);
-  printf("bytes write:%lu\n", result);
+  write_to_file();
 }
 
 int main(int argc, char** argv)
