@@ -1,5 +1,5 @@
 default:
-	gcc -o oneline -Wall -Wextra oneline.c
+	gcc -o oneline -std=c11 -Wall -Wextra oneline.c
 
 .PHONY: clean
 clean:
