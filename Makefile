@@ -6,11 +6,11 @@ default:
 	$(CC) -o oneline -std=c11 -Wall -Wextra oneline.c
 
 debug:
-	$(CC) -o oneline -g -O0 -std=c11 -Wall -Wextra oneline.c
+	$(CC) -o oneline_debug -g -O0 -std=c11 -Wall -Wextra oneline.c
 
 win32:
-	$(CC) -o oneline.exe -std=c11 -Wall -Wextra oneline.c
+	i586-mingw32msvc-gcc -o oneline.exe -static-libgcc -std=c11 -Wall -Wextra oneline.c
 
 .PHONY: clean
 clean:
-	-rm *.o oneline
+	-rm *.o oneline oneline_debug oneline.exe

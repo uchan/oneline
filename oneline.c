@@ -75,7 +75,8 @@ bool set_parameter(const char* filename, const char* output)
     return false;
   }
 
-  char* lower = (char*)calloc(length, 1);
+  // +1 for null terminated string
+  char* lower = (char*)calloc(length + 1, 1);
   if (NULL == lower)
   {
     printf("can not allocate memory\n");
@@ -85,6 +86,7 @@ bool set_parameter(const char* filename, const char* output)
   {
     lower[i] = tolower(output[i]);
   }
+  lower[length] = 0x00; // null terminated string
 
   if (0 == strcmp(lower, OUTPUT_CRLF))
   {
