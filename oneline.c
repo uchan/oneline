@@ -37,6 +37,8 @@ enum LineType
 };
 static enum LineType output_type = TYPE_INVALID;
 static size_t output_size = 0;
+static byte* input_buffer = NULL;
+static byte* output_buffer = NULL;
 
 //-----------------------------------
 // help func
@@ -105,8 +107,10 @@ bool set_parameter(const char* filename, const char* output)
   return true;
 }
 
-void put_output(byte* buffer)
+void put_output()
 {
+  byte* buffer = output_buffer + output_size;
+
   assert(NULL != buffer);
 
   switch(output_type)
@@ -114,12 +118,15 @@ void put_output(byte* buffer)
     case TYPE_CRLF:
       *buffer = CR;
       *(buffer + 1) = LF;
+      output_size = output_size + 2;
       break;
     case TYPE_CR:
       *buffer = CR;
+      output_size++;
       break;
     case TYPE_LF:
       *buffer = LF;
+      output_size++;
       break;
     default:
       assert(0);
@@ -133,6 +140,14 @@ void cleanup()
   if (NULL != input_file)
   {
     fclose(input_file);
+  }
+  if (NULL != input_buffer)
+  {
+    free(input_buffer);
+  }
+  if (NULL != output_buffer)
+  {
+    free(output_buffer);
   }
 }
 //-----------------------------------
@@ -154,7 +169,7 @@ void transform()
   }
 
   // make buffer
-  byte* input_buffer = (byte*)calloc(size, 1);
+  input_buffer = (byte*)calloc(size, 1);
   if (NULL == input_buffer)
   {
     printf("can not allocate memory\n");
@@ -170,7 +185,7 @@ void transform()
   }
 
   // make output buffer
-  byte* output_buffer = (byte*)calloc(size * 2, 1);
+  output_buffer = (byte*)calloc(size * 2, 1);
   if (NULL == output_buffer)
   {
     printf("can not allocate memory\n");
@@ -184,7 +199,7 @@ void transform()
     switch(input_buffer[i])
     {
       case CR:
-        put_output(output_buffer + i);
+        put_output();
         if (LF == input_buffer[i + 1]){
           i = i + 2;
         }else{
@@ -192,7 +207,7 @@ void transform()
         }
         break;
       case LF:
-        put_output(output_buffer + i);
+        put_output();
         i++;
         break;
       default:
