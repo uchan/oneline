@@ -17,3 +17,9 @@ convert test.c(with CR or LF or even CRLF) to windows format (CRLF)
 oneline test.c crlf
 
 done!
+
+----------
+Todo:
+
+1.UTF-16(BE/LE),UTF-32 support
+(check multibyte CR LF)
