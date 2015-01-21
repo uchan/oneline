@@ -10,4 +10,4 @@ install:
 script:
   - make
   - make debug
-  - CC=i586-mingw32msvc-gcc make win32
+  - make win32
